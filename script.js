@@ -35,9 +35,46 @@ navToggle.addEventListener('click', () => {
   navToggle.classList.toggle('active');
 });
 
+document.addEventListener('click', (e) => {
+  if (navLinks.classList.contains('open') && !navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+  }
+});
+
 navLinks.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+  });
+});
+
+// Active nav link tracking
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let currentSection = '';
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    if (window.pageYOffset >= sectionTop - 200) {
+      currentSection = section.getAttribute('id');
+    }
+  });
+
+  navItems.forEach((item) => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === `#${currentSection}`) {
+      item.classList.add('active');
+    }
   });
 });
 
@@ -126,8 +163,8 @@ heroSection.addEventListener('mouseleave', () => {
 });
 
 // Navbar active state on scroll
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-links a');
+sections = document.querySelectorAll('section');
+navItems = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
   let current = '';

@@ -46,7 +46,7 @@ textarea {
 }
 
 .container {
-  width: min(1200px, calc(100% - 2rem));
+  width: min(1200px, calc(100% - 1rem));
   margin: 0 auto;
 }
 
@@ -109,6 +109,20 @@ textarea {
   border: none;
   cursor: pointer;
   gap: 5px;
+  flex-direction: column;
+  width: 24px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.nav-toggle:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .nav-toggle span {
@@ -117,6 +131,7 @@ textarea {
   background: var(--text);
   display: block;
   border-radius: 999px;
+  transition: all 0.3s ease;
 }
 
 .progress-container {
@@ -167,9 +182,10 @@ textarea {
 }
 
 .hero-copy h1 {
-  font-size: clamp(2.8rem, 4vw, 4.4rem);
-  line-height: 0.98;
+  font-size: clamp(1.8rem, 5vw, 4.4rem);
+  line-height: 1.1;
   margin: 0 0 1.2rem;
+  word-break: break-word;
 }
 
 .hero-copy p {
@@ -191,12 +207,15 @@ textarea {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  padding: 1rem 1.8rem;
+  padding: 0.95rem 1.8rem;
   font-weight: 600;
   border: 1px solid transparent;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .btn::before {
@@ -353,7 +372,7 @@ textarea {
 }
 
 .section-header h2 {
-  font-size: clamp(2rem, 2.4vw, 2.8rem);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
   margin: 0;
 }
 
@@ -588,6 +607,7 @@ textarea {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--accent-strong));
   transition: width 1.2s ease;
+  max-width: 100%;
 }
 
 .portfolio-grid {
@@ -724,7 +744,7 @@ textarea {
 }
 
 .workflow-card h4 {
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
   margin-bottom: 1rem;
   color: rgba(238, 243, 255, 0.95);
   font-weight: 600;
@@ -984,6 +1004,10 @@ textarea {
   border-radius: 18px;
   padding: 1rem 1.15rem;
   transition: border-color 0.25s ease, transform 0.25s ease;
+  font-size: 1rem;
+  min-height: 48px;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-field input:focus,
@@ -1144,6 +1168,33 @@ textarea {
   pointer-events: none;
 }
 
+/* Touch device optimization */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover {
+    transform: none;
+  }
+
+  .portfolio-card:hover,
+  .workflow-card:hover,
+  .skill-item:hover,
+  .about-card:hover,
+  .stat-card:hover {
+    transform: none;
+  }
+
+  .social-links a:hover {
+    transform: none;
+  }
+
+  /* Better focus states for touch */
+  .btn:focus-visible,
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-grid,
   .about-grid,
@@ -1175,13 +1226,22 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  .section {
+    padding: 3.5rem 0;
+  }
+
   .navbar {
     gap: 1rem;
+    padding: 0.75rem 0;
+  }
+
+  .brand {
+    font-size: 1rem;
   }
 
   .nav-links {
     position: fixed;
-    inset: 76px 0 0;
+    inset: 60px 0 0;
     background: rgba(5, 10, 18, 0.98);
     backdrop-filter: blur(20px);
     flex-direction: column;
@@ -1191,27 +1251,98 @@ textarea {
     gap: 1.5rem;
     transform: translateY(-120%);
     transition: transform 0.3s ease;
+    width: 100%;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
   }
 
   .nav-links.open {
     transform: translateY(0);
   }
 
+  .nav-links a {
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+  }
+
   .nav-toggle {
     display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 32px;
+    height: 24px;
+  }
+
+  .nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    display: block;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(10px);
+  }
+
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-10px);
+  }
+
+  .hero-section {
+    padding: 2rem 0 3rem;
+    min-height: auto;
   }
 
   .hero-copy h1 {
-    font-size: 2.6rem;
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+  }
+
+  .hero-copy p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .hero-stats div {
+    padding: 1rem 0.8rem;
   }
 
   .hero-info h2 {
-    font-size: 1.75rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .hero-card {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .hero-avatar {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
   }
 
   .back-to-top {
     right: 1rem;
     bottom: 1rem;
+    width: 44px;
+    height: 44px;
   }
 
   .stats-grid {
@@ -1225,12 +1356,20 @@ textarea {
   }
 
   .stat-number {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 4vw, 2.2rem);
     margin-bottom: 0.8rem;
   }
 
+  .stat-card p {
+    font-size: 0.95rem;
+  }
+
   .about-card {
-    padding: 2rem;
+    padding: 1.8rem;
+  }
+
+  .about-card h3 {
+    font-size: 1.2rem;
   }
 
   .about-card ul {
@@ -1239,62 +1378,693 @@ textarea {
 
   .about-card li {
     padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .skill-category {
+    padding: 2rem;
+  }
+
+  .skill-list {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .skill-item {
+    padding: 1.2rem;
+  }
+
+  .skill-item span {
+    font-size: 0.95rem;
+  }
+
+  .skill-bar {
+    height: 8px;
+  }
+
+  .portfolio-card {
+    padding: 1.5rem;
+  }
+
+  .portfolio-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .portfolio-card p,
+  .portfolio-card li {
+    font-size: 0.9rem;
+  }
+
+  .section-header p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .education-card,
+  .experience-card {
+    padding: 1.5rem;
+  }
+
+  .education-card h3,
+  .experience-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form,
+  .contact-details {
+    padding: 1.5rem;
+  }
+
+  .form-field {
+    gap: 0.6rem;
+  }
+
+  .form-field label {
+    font-size: 0.9rem;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+
+  .form-field textarea {
+    min-height: 120px;
+  }
+
+  .workflow-category h3 {
+    font-size: 1.3rem;
+  }
+
+  .workflow-card {
+    padding: 1.5rem;
+  }
+
+  .workflow-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+  }
+
+  .workflow-icon i {
+    font-size: 1.5rem;
+  }
+
+  .workflow-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .social-links a {
+    width: 40px;
+    height: 40px;
+  }
+
+  .contact-card {
+    padding: 1.2rem;
   }
 }
 
 @media (max-width: 520px) {
-  .hero-stats {
-    grid-template-columns: 1fr;
+  .section {
+    padding: 2.5rem 0;
+  }
+
+  .container {
+    width: min(100%, calc(100% - 1rem));
+  }
+
+  .brand {
+    font-size: 0.9rem;
+  }
+
+  .hero-section {
+    padding: 1.5rem 0 2.5rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.4rem, 6vw, 2.4rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero-copy p {
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    margin-bottom: 1.2rem;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
   }
 
   .hero-actions {
     flex-direction: column;
-    align-items: stretch;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
   }
 
   .btn {
     width: 100%;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.9rem;
+    min-height: 44px;
   }
 
-  .workflow-grid {
+  .hero-stats {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
   }
 
-  .overview-card,
-  .summary-card {
-    padding: 2rem;
+  .hero-stats div {
+    padding: 0.8rem 0.6rem;
   }
 
-  .overview-card h3,
-  .summary-card h3 {
-    font-size: 1.5rem;
+  .hero-stats strong {
+    font-size: 1.2rem;
   }
 
-  .overview-card p,
-  .summary-card p {
+  .hero-card {
+    padding: 1.2rem;
+  }
+
+  .hero-info h2 {
+    font-size: clamp(1.3rem, 4vw, 1.75rem);
+  }
+
+  .hero-avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-info .tag {
+    font-size: 0.8rem;
+  }
+
+  .hero-icons {
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+
+  .hero-icons span {
+    font-size: 0.9rem;
+    gap: 0.6rem;
+  }
+
+  .hero-icons i {
     font-size: 1rem;
   }
 
-  .process-highlights {
-    grid-template-columns: 1fr;
+  .back-to-top {
+    width: 40px;
+    height: 40px;
   }
 
-  .impact-stats {
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.4rem, 4.5vw, 2rem);
+  }
+
+  .section-header p {
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    margin: 0.8rem auto 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.5rem 1rem;
+    min-height: 100px;
+  }
+
+  .stat-number {
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    margin-bottom: 0.6rem;
+  }
+
+  .stat-card p {
+    font-size: 0.85rem;
+  }
+
+  .about-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .about-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-card p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-card ul {
+    gap: 0.6rem;
+  }
+
+  .about-card li {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .skill-category {
+    padding: 1.5rem;
+  }
+
+  .skill-category h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .skill-item {
+    padding: 1rem;
+  }
+
+  .skill-item span {
+    font-size: 0.9rem;
+  }
+
+  .skill-bar {
+    height: 6px;
+    margin-top: 0.5rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .portfolio-card {
+    padding: 1.3rem;
+    border-radius: 16px;
+  }
+
+  .portfolio-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .portfolio-card p,
+  .portfolio-card li {
+    font-size: 0.85rem;
+  }
+
+  .project-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .education-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .education-card,
+  .experience-card {
+    padding: 1.3rem;
+    border-radius: 16px;
+  }
+
+  .education-card h3,
+  .experience-card h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .edu-item,
+  .exp-item {
+    font-size: 0.85rem;
+  }
+
+  .exp-details p {
+    margin-top: 1rem;
+  }
+
+  .contact-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  .impact-stat .stat-number {
-    font-size: 2rem;
+  .contact-form,
+  .contact-details {
+    padding: 1.3rem;
+  }
+
+  .form-field {
+    gap: 0.5rem;
+  }
+
+  .form-field label {
+    font-size: 0.85rem;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    min-height: 44px;
+  }
+
+  .form-field textarea {
+    min-height: 100px;
+  }
+
+  .form-note {
+    font-size: 0.8rem;
+  }
+
+  .contact-card {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .contact-card i {
+    font-size: 1.2rem;
+  }
+
+  .contact-card h4 {
+    font-size: 0.95rem;
+  }
+
+  .workflow-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .workflow-category h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
   }
 
   .workflow-cards {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  .modeling-card,
-  .analysis-card {
-    padding: 2rem;
+  .workflow-card {
+    padding: 1.3rem;
+    border-radius: 16px;
+  }
+
+  .workflow-card h4 {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .workflow-card p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .workflow-card li {
+    font-size: 0.85rem;
+  }
+
+  .workflow-icon {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 1rem;
+  }
+
+  .workflow-icon i {
+    font-size: 1.2rem;
+  }
+
+  .impact-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .impact-stat .stat-number {
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+  }
+
+  .impact-stat span:last-child {
+    font-size: 0.8rem;
+  }
+
+  .summary-card {
+    padding: 1.5rem;
+  }
+
+  .summary-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .summary-card p {
+    font-size: 0.9rem;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .social-links a {
+    width: 40px;
+    height: 40px;
+  }
+
+  .site-footer {
+    padding: 2rem 0;
+  }
+}
+
+@media (max-width: 425px) {
+  .hero-copy h1 {
+    font-size: clamp(1.3rem, 5.5vw, 2rem);
+  }
+
+  .hero-copy p {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.8rem 1.2rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+  }
+
+  .section-header p {
+    font-size: clamp(0.8rem, 1.8vw, 0.85rem);
+  }
+
+  .stat-number {
+    font-size: clamp(1.4rem, 3.5vw, 1.6rem);
+  }
+
+  .about-card {
+    padding: 1.2rem;
+  }
+
+  .skill-item {
+    padding: 0.9rem;
+  }
+
+  .portfolio-card {
+    padding: 1.2rem;
+  }
+
+  .education-card,
+  .experience-card {
+    padding: 1.2rem;
+  }
+
+  .contact-form,
+  .contact-details {
+    padding: 1.2rem;
+  }
+
+  .workflow-card {
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    width: min(100%, calc(100% - 0.8rem));
+  }
+
+  .hero-section {
+    padding: 1.2rem 0 2rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-copy p {
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero-actions {
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .section {
+    padding: 2rem 0;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  }
+
+  .section-header p {
+    font-size: clamp(0.75rem, 1.5vw, 0.8rem);
+    margin: 0.6rem auto 0;
+  }
+
+  .stat-number {
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+  }
+
+  .stat-card {
+    padding: 1.2rem 0.8rem;
+    min-height: 90px;
+  }
+
+  .about-card {
+    padding: 1rem;
+  }
+
+  .about-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .skill-item {
+    padding: 0.8rem;
+  }
+
+  .portfolio-card {
+    padding: 1rem;
+  }
+
+  .education-card,
+  .experience-card {
+    padding: 1rem;
+  }
+
+  .contact-form,
+  .contact-details {
+    padding: 1rem;
+  }
+
+  .workflow-card {
+    padding: 1rem;
+  }
+
+  .workflow-card h4 {
+    font-size: clamp(0.95rem, 2vw, 1rem);
+  }
+
+  .hero-card {
+    padding: 1rem;
+  }
+
+  .hero-info h2 {
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+  }
+
+  .hero-avatar {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .hero-section {
+    padding: 1rem 0 1.8rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+  }
+
+  .btn {
+    font-size: 0.75rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .stat-card {
+    padding: 1rem 0.6rem;
+  }
+
+  .about-card {
+    padding: 0.9rem;
+  }
+
+  .skill-item {
+    padding: 0.7rem;
+  }
+
+  .contact-form,
+  .contact-details {
+    padding: 0.9rem;
+  }
+
+  .workflow-card {
+    padding: 0.9rem;
+  }
+
+  .section {
+    padding: 1.8rem 0;
+  }
+
+  .nav-toggle span {
+    width: 20px;
   }
 }
